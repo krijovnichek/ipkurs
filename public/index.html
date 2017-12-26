@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Календарь погоды</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.js"></script>
+  <script src="script.js" ></script>
+</head>
+<body>
+	<div class="wrap">
+
+		<div class="content">
+			<center><h1>Календарь погоды</h1></center>
+			<form class="form-inline">
+				  <div class="form-group">
+				    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+				    <div class="input-group">
+				      <!-- <div class="input-group-addon">Дата</div> -->
+				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="Введите дату">
+
+				      
+				    </div>
+				  </div>
+				  <button type="button" class="btn btn-primary" id="clickbtn">Узнать погоду</button>	
+			</form>
+			<div class="res"><div class="hide" id="temp"></div>
+			<center><h2>			</h2></center>
+			</div></div>
+			
+		</div>
+	</div>
+	
+</body>
+</html>
