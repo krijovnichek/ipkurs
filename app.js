@@ -1,12 +1,11 @@
-var express = require( 'express' );
-var	bodyParser = require('body-parser');
-var	app = express();
-var	server = require('http').createServer(app);
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var server = require('http').createServer(app);
 //var	io = require('socket.io').listen(server);
 var mongoose = require('mongoose');
-// var Schema = mongoose.Schema();
 var url = require('url');
-var fs = require('fs'); 
+var fs = require('fs');
 var request = require('request');
 var http = require('http');
 var https = require('https');
@@ -17,66 +16,60 @@ var doc;
 var responce;
 var quest;
 
-server.listen(process.env.PORT || 3005, function(){
-	console.log('Start listening 3005...');
-} );
+server.listen(process.env.PORT || 3005, function () {
+    console.log('Start listening 3005...');
+});
 
 
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/calendar', function (err) {
+    if (err) console.log(err);
+    console.log('Conneced to MongoDB');
+});
 
- mongoose.Promise = global.Promise;
- mongoose.connect('mongodb://localhost/calendar', function(err){
-if (err) console.log (err);
- 	console.log('Conneced to MongoDB');
- });
-
- // БД СХЕМА
-var projectSchema = mongoose.Schema ({
-	date: String,
-	temp: String,
-	sign: Boolean,
-	created: {type: Date, default: Date.now}
+// БД СХЕМА
+var projectSchema = mongoose.Schema({
+    date: String,
+    temp: String,
+    sign: Boolean,
+    created: {type: Date, default: Date.now}
 });
 
 
 var Temps = mongoose.model('Message', projectSchema);           //          Модель
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 
-	res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/donate', function(req, res){
+app.get('/get', function (req, res) {
+    console.log(req.query.date);
+    quest = req.query.date;
+    /*var newTemp = new Temps ({date: quest, temp: rand, sign: true });
+        newTemp.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+        });*/
 
-	res.sendFile(__dirname + '/public/donate.html');
+
+    //Тащим данные из БД
+    var dataFromDB = Temps.find({date: quest}, function (err, docs) {
+        doc = docs[0].temp;
+        console.log(doc);
+    });
+
+    console.log("Hello from str67");
+
+    setTimeout(function () {
+        res.send(info = {t: '+' + doc + '°C'});
+    }, 100)
+
 });
+//res.sendStatus(200);
 
-app.get('/get', function(req, res){
-	console.log(req.query.date);
-	quest = req.query.date;
-	var newTemp = new Temps ({date: quest, temp: rand, sign: true });
-		newTemp.save(function(err){
-			if (err) {
-				console.log(err);
-			}
-		});
-		
-
-
-	//Тащим данные из БД
-	var dataFromDB = Temps.find({date: quest}, function(err, docs){
-		doc = docs[0].temp;
-		console.log(doc);
-	});
-	
-
-	res.send(info = {
-	
-		t: '+' + doc + '°C'
-
-	});
-	//res.sendStatus(200);
-});
 
 
 
