@@ -4,6 +4,7 @@ var	app = express();
 var	server = require('http').createServer(app);
 //var	io = require('socket.io').listen(server);
 var mongoose = require('mongoose');
+// var Schema = mongoose.Schema();
 var url = require('url');
 var fs = require('fs'); 
 var request = require('request');
@@ -11,6 +12,7 @@ var http = require('http');
 var https = require('https');
 var util = require('util');
 
+var rand = Math.floor(Math.random() * (36 - 5 + 1)) + 5;
 var doc;
 var responce;
 var quest;
@@ -28,7 +30,7 @@ if (err) console.log (err);
  });
 
  // БД СХЕМА
-var tempSchema = mongoose.Schema ({
+var projectSchema = mongoose.Schema ({
 	date: String,
 	temp: String,
 	sign: Boolean,
@@ -36,8 +38,7 @@ var tempSchema = mongoose.Schema ({
 });
 
 
-var Temps = mongoose.model('Message', tempSchema);
-
+var Temps = mongoose.model('Message', projectSchema);           //          Модель
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
@@ -53,12 +54,12 @@ app.get('/donate', function(req, res){
 app.get('/get', function(req, res){
 	console.log(req.query.date);
 	quest = req.query.date;
-	var newTemp = new Temps ({date: quest, temp: '25', sign: true });
+	var newTemp = new Temps ({date: quest, temp: rand, sign: true });
 		newTemp.save(function(err){
 			if (err) {
 				console.log(err);
 			}
-		})
+		});
 		
 
 
@@ -68,7 +69,7 @@ app.get('/get', function(req, res){
 		console.log(doc);
 	});
 	
-	//var rand = Math.floor(Math.random() * (36 - 5 + 1)) + 5;
+
 	res.send(info = {
 	
 		t: '+' + doc + '°C'
