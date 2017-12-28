@@ -1,3 +1,4 @@
+	//windows
 $(function(){
 	var $btn = $('#clickbtn');
 	var hide = $('.hide');
